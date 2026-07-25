@@ -48,12 +48,22 @@
                 --accent-color: ${accentColor};
                 --background-color: ${backgroundColor};
                 }`;
+
+                document.documentElement.style.setProperty('--primary-color', primaryColor);
+                document.documentElement.style.setProperty('--accent-color', accentColor);
+                document.documentElement.style.setProperty('--background-color', backgroundColor);
+            }
+            else {
+                const defaultTheme = document.getElementById('default-theme').dataset;
+                document.documentElement.style.setProperty('--primary-color', defaultTheme.primaryColor);
+                document.documentElement.style.setProperty('--accent-color', defaultTheme.accentColor);
+                document.documentElement.style.setProperty('--background-color', defaultTheme.backgroundColor);
             }
         </script>
-      <script type="module" crossorigin src="/assets/qubitLattice-BmwVOTms.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/app-Yd3I0sKC.js">
-      <link rel="modulepreload" crossorigin href="/assets/qc-wBQtVTFn.js">
-      <link rel="stylesheet" crossorigin href="/assets/app-DzzLdUXG.css">
+      <script type="module" crossorigin src="/assets/qubitLattice-oKFR51OA.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/app-C8qlVa_X.js">
+      <link rel="modulepreload" crossorigin href="/assets/qc-NZz_qAHW.js">
+      <link rel="stylesheet" crossorigin href="/assets/app-Cvi03wf0.css">
     </head>
 
     <body id="main-body">
