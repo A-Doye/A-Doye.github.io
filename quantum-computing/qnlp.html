@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+        
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#006152"
+            data-accent-color="#00a8c6"
+            data-background-color="#d7F7Cf">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #006152;
+                --accent-color: #00a8c6;
+                --background-color: #d7F7Cf;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="qc-backdrop" class="sidebar-backdrop-container"></div>
+        <svg id="plain-page">
+            <rect x="0" y="0" width="100%" height="100%"></rect>
+        </svg>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li>
+                    <a class="top-option active" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div>
+                </li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content">
+            <h1>Quantum Natural Language Processing</h1>
+
+        </div>
+        
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="/qc.js"></script>
+    </body>
+</html>

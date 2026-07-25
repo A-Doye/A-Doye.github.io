@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+        
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#006152"
+            data-accent-color="#00a8c6"
+            data-background-color="#d7F7Cf">
+        </div>
+
+        <div id="data-article"
+            data-date-published="27/05/2026"
+            data-time-published="18:46"
+            data-author="A. Doye">
+        </div>
+
+        <div id="data-nav"
+            data-previous-page="/quantum-computing/qimp/qubit-lattice.html"
+            data-previous-page-title="Qubit Lattice"
+            data-next-page="/quantum-computing/qimp/neqr.html"
+            data-next-page-title="NEQR">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #006152;
+                --accent-color: #00a8c6;
+                --background-color: #d7F7Cf;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="qc-backdrop" class="sidebar-backdrop-container"></div>
+        <svg id="plain-page">
+            <rect x="0" y="0" width="100%" height="100%"></rect>
+        </svg>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li>
+                    <a class="top-option active" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div>
+                </li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content">
+            <h1>Flexible Representation of Quantum Images (FRQI)</h1>
+
+            <p>
+                <span class="reference" data-ref="Phuc Q. Le, Fangyan Dong & Kaoru Hirota: 
+                A flexible representation of quantum images for polynomial preparation, image compression, and processing operations, Quantum Information Processing Vol. 10, 63-84 (2011)">Le et. al, 2011</span>'s
+                FRQI significantly advances the field of quantum image processing.
+                Like qubit lattice, superposition is used to store colour on qubits.
+                Unlike qubit lattice entanglement is also utilised, significantly reducing the number of qubits necessary for large images.
+            </p>
+
+            <h2>Entangling colour and pixel position</h2>
+
+            <p>
+                Encoding a square, <b>greyscale</b> image with side length <span class="math">n<sup>2</sup></span> in the FRQI format requires <span class="math">2n+1</span> qubits.
+                The FRQI state can be thought of as containing two groups of qubits, colour encoding and positional encoding.
+                To observe this we may split our initial state:
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    <span class="ket">0</span>
+                    <span class="no-italic">&otimes;</span>
+                    <span class="ket">0</span><sup>2n</sup>
+                </p>
+            </div>
+
+            <p>
+                As with many quantum algorithms, the Hadamard gate is used to prepare the state.
+                The transform <span class="math"><b class="no-italic">H</b>=I<span class="no-italic">&otimes;</span>H<sup><span class="no-italic">&otimes;</span>2n</sup></span>
+                is used to place all positional qubits in maximal superposition, producing the state <span class="ket">H</span>.
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    <b class="no-italic">H</b>
+                    <span class="ket">0</span><sup>2n+1</sup>=
+                    <span class="frac">1#2<sup>n</sup></span>
+                    <span class="ket">0</span>
+                    <span class="no-italic">&otimes;</span>
+                    <span class="sum">2<sup>n</sup>-1~i=0</span>
+                    <span class="ket">i</span>=
+                    <span class="ket">H</span>
+                </p>
+            </div>
+
+            <p>
+                Here <span class="ket">i</span> represents the binary representation of the value <span class="math">i</span> expressed with the basis states of the qubit string.
+                It is clear to see possible value of <span class="math">i</span>, that is every pixel index within the image, has an equal probability of being measured.
+            </p>
+
+            <p>
+                <span class="ket">H</span> is actually a valid FRQI state without any colour encoded.
+                Each time the state is measured the value of the locational qubits is interpretted as the location within the image of the colour returned by the colour encoding qubit.
+                Our current state, in all possible cases, returns a colour value of 0, meaning that the <span class="ket">H</span> encodes a uniform, blank image.
+            </p>
+
+            <p>
+                As with qubit lattice, colour is encoded using the application of a rotational gate.
+                However, a lone <span class="math">R<sub>Y</sub></span> applied the colour encoding qubit is insufficient as it would change the colour of the entire image simulteneously.
+            </p>
+
+            <p>
+                To resolve this the colour encoding <span class="math">R<sub>Y</sub></span> gate is controlled dependent on location.
+                With the use of projectors, we may construct an operator <span class="math">R<sub>k</sub></span> 
+                that encodes the colour <span class="math">&theta;<sub>k</sub></span> dependent on the locational qubits being in a target state <span class="ket">k</span>.
+                This process entangles the colour encoding qubit with the locational qubit string.
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    <span class="math">R<sub>k</sub></span> = 
+                    <span class="math">R<sub>Y</sub></span>(&theta;<sub>k</sub>)
+                    <span class="no-italic">&otimes;</span>
+                    <span class="ket">k</span><span class="bra">k</span>+
+                    I <span class="no-italic">&otimes;</span>
+                    <span class="sum">2<sup>2n</sup>-1~j=0, j&NotEqual;k</span>
+                    <span class="ket">j</span><span class="bra">j</span>
+                </p>
+            </div>
+
+            <p>
+                The action of this operator on the <span class="ket">H</span> is made clear when the reader considers the orthogonality condition on the locational qubits.
+            </p>
+
+            <p>
+                Applying the <span class="math">&theta;<sub>k</sub></span> for all pixel locations within in image produces a complete FRQI state.
+                Each possible locational qubit string value is entangled with the colour associated with that location, ensuring colour and positional information are correctly matched.
+                The full FRQI state is thus:
+            </p>
+
+            <div class="equation">
+                <div class="multiline-equation">
+                    <p class="math">
+                        <span class="ket">FRQI</span> =
+                        <span class="frac">1#2<sup>n</sup></span>
+                        
+                        <span class="sum">2<sup>2n</sup>-1~i=0</span>
+                        (cos &theta;<sub>i</sub> <span class="ket">0</span>+ 
+                        sin &theta;<sub>i</sub> <span class="ket">1</span>)
+                        <span class="no-italic">&otimes;</span>
+                        <span class="ket">i</span>
+                    </p>
+                    
+                </div>
+            </div>
+
+            <p>
+                To encode a full <span class="math">RGBa</span> image 4 colour (or more accurately 'channel') encoding qubits may be used, for a total image size of <span class="math">2n+4</span> qubits.
+                Alternatively, 2 colour encoding qubits may also be placed in superposition using a Hadamard gate, and used as additional control values when encoding colour.
+                This approach, described by <span class="reference" data-ref="Bo Sun, Phuc Q. Le, Abdullah M. Iliyasu, Fei Yan, J. Adrian Garcia, Fangyan Dong: 
+                A Multi-Channel Representation for images on quantum computers using the RGBa color space, IEEE 7th International Symposium on Intelligent Signal Processing (2011)">Sun et. al, 2011</span>
+                reduces the number of qubits necessary to <span class="math">2n+3</span>.
+            </p>
+
+            <h2>Retrieval</h2>
+
+            <p>
+                Retrieving an FRQI image from its quantum state is costly:
+            </p>
+
+            <ul>
+                <li>Each measurement returns information concerning a random pixel position with equal probability.</li>
+                <li>Each measurement at a pixel location does not give us an exact value, it only improves our knowledge of the colour at that position.</li>
+                <li>Encoding an FRQI state is costly, requiring many multiple-control gates.</li>
+                <li>Image dimensions that are not powers of 2 result in meaningless locations outside the original image being returned.</li>
+            </ul>
+
+            <p>
+                This simulation demonstrates the first two limitations classically. 
+                The probabalistic nature of retrieval results in imperfect results, limiting the states usefulness.
+            </p>
+
+            <div id="frqi-demo" class="demo-container flex-container">
+                <div>
+                    <canvas id="frqi-demo-original-img"></canvas>
+                    <p>Original</p>
+                </div>
+                <div>
+                    <canvas id="frqi-demo-simulation-img"></canvas>
+                    <p>Simulation, Cycle <span id="frqi-demo-cycle-count">0</span></p>
+                    <button id="frqi-demo-run-sim" class="default-button">Simulate</button>
+                </div>
+            </div>
+
+            <p>
+                Even after a million state preparation and measurements our image is far from perfect!
+            </p>
+
+            <p>
+                The value of FRQI clearly is not in efficient retrieval.
+                Instead, the entangled coordinate system allows for certain image manipulations to be performed incredibly efficiently once the image is encoded.
+                
+            </p>
+
+            <p>
+                For example, to invert the colour of the entire image only a single <span class="math">X</span> gate applied to the colour encoding qubit is necessary.
+                Alternatively by applying <span class="math">X</span> gates to the locational qubits encoding the <span class="math">x</span> position the entire image may be efficiently flipped horizontally.
+            </p>
+
+            <p>
+                Efficient full image manipulations are a strength of the FRQI state, leading to its widespread use for QIMP tasks following its introduction.
+                The choice of encoding state selected by a quantum developer is crucial as only certain manipulations may be performed efficiently on a given state.
+                The next state explored in this series, NEQR, addresses the limitations of superposition colour encoding.
+            </p>
+        </div>
+        
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="/qc.js"></script>
+        <script src="/quantum-computing/qimp/frqi.js"></script>
+    </body>
+</html>

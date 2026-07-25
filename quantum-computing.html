@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+        
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#006152"
+            data-accent-color="#00A8C6"
+            data-background-color="#d7F7Cf">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #006152;
+                --accent-color: #00a8c6;
+                --background-color: #d7F7Cf;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="qc-backdrop" class="sidebar-backdrop-container"></div>
+        <svg id="plain-page">
+            <rect x="0" y="0" width="100%" height="100%"></rect>
+        </svg>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li>
+                    <a class="top-option active" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div>
+                </li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content">
+            <h1>Quantum Computing</h1>
+
+            <h2>What's a quantum computer?</h2>
+            <p>
+                Quantum computers use quantum physics to process information in an entirely different way to normal (classical) computers!
+                This allows quantum computers to perform certain processes faster than classical devices.
+                Most famously, Shor's quantum factorisation algorithm can break popular encryption methods such as RSA.
+                Grover's quantum search of unstructured data is also faster than any known classical method.
+            </p>
+            <p>
+                Implementing a large scale, error corrected quantum device is an ongoing challenge.
+                Quantum bits, or 'qubits' require a physical implementation, with modalities like superconducting and photonic each bringing unique advantages.
+                Qubits are also imperfect and 'noisy', which requires error correcting algorithms to achieve an ideal 'logical' qubits.
+                The no-cloning theorem means that networks of quantum devices will need to be structured and operated diffierently to their classical counterparts.
+            </p>
+
+            <h2>My interests</h2>
+            <p>
+                I enjoy researching algorithms and developing software related to quantum computers. 
+                My undergraduate thesis focused on using quantum computers for processing images.
+                As part of this work I reviewed and compared currently popular algorithms for quantum image processing, as well as the manipulations possible on encoding images.
+                Algorithms analysed were implemented using the qiskit language to run simulations.
+                Most methods of quantum image encoding, such as <a href="https://doi.org/10.1007/s11128-010-0177-y">FRQI</a> rely on highly entangled states to store images with great space efficiency.
+                This reliance makes these algorithms entirely unsuitable for current quantum computing devices for any image at scale.
+            </p>
+            <p>
+                My masters research explored quantum natural language processing, and the inclusion of images in an existing theoretical framework to produce a multimodal modal.
+                This work utilised the high level quantum programming package <a href="https://docs.quantinuum.com/lambeq/index.html">Lambeq</a> to classify which of two given sentences related to a given image embedded in a quantum state.
+                Through simulated experiments I was able to demonstrate flaws in existing work, and propose solutions.
+                A limited test case showed that these proposals performed better than previous work.
+            </p>
+            <p>
+                I continue to be interested in developing practical quantum computing technologies from an algorithmic and software development perspective.
+                Theses available upon request for relevant parties.
+            </p>
+
+            <h2>Read More</h2>
+
+            <p>You can find out more on topics I've worked on by exploring this site. More pages to come in the future!</p>
+
+            <h3><a href="/quantum-computing/qimp.html">Quantum Image Processing</a></h3>
+        </div>
+        
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="qc.js"></script>
+    </body>
+</html>

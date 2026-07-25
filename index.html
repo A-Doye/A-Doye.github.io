@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#3ccbed"
+            data-accent-color="#eeecab"
+            data-background-color="#000F1C">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #3ccbed;
+                --accent-color: #eeecab;
+                --background-color: #000F1C;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="index-backdrop" class="sidebar-backdrop-container">
+            <div class="left sidebar"></div>
+            <div class="center"></div>
+            <div class="right sidebar"></div>
+        </div>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <li><button class="top-option top-option-toggle" id="toggle-animation">Animate</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option active" href="/index.html">Home</a></li>
+                <li><a class="top-option" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div></li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content">
+            <h1 id="test-button">Welcome to my web page</h1>
+
+            <p>
+                Why not click around and explore a little?
+            </p>
+            <p>
+                Things are still under construction so there's not much to see. Mobile devices are not yet supported!
+            </p>
+            <p>
+                I made this website to share my interests in software development and quantum computing.
+                It's been made to be entirely customisable. Don't like the theme? Pick a new one!
+            </p>
+
+            <h2>Explore</h2>
+            
+            <h3>Quantum Computing</h3>
+
+            <p>
+                I'm interested in quantum computing from a computer scientist's perspective.
+                I like programming quantum devices to simulate potential applications.
+                Find out more in the <a href="/quantum-computing.html">quantum computing hub</a>.
+            </p>
+
+            <h3>Dithering</h3>
+
+            <p>
+                Dithering is a compression method for images, though recently its more popularly applied as a stylistic choice.
+                You can learn more about dithering and <a href="/dithering.html">dither your own images here.</a>
+            </p>
+        </div>
+
+        
+
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="/index.js"></script>
+        <!-- <script src="qcircEditor.js" type="module"></script> -->
+    </body>
+</html>

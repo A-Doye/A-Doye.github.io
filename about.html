@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#5A2E4A"
+            data-accent-color="#e74c3c"
+            data-background-color="#f7e9f1">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #5A2E4A;
+                --accent-color: #e74c3c;
+                --background-color: #f7e9f1;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="about-backdrop">
+
+        </div>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <li><button class="top-option top-option-toggle" id="toggle-animation">Animate</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li><a class="top-option" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div></li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option active" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content" class="outline-text">
+            <h1>About</h1>
+
+            <p>
+                Hi! I'm a software developer and quantum computing enthusiast from Carcosa in the UK.
+                I made this website as a side project while I'm searching for a PhD position.
+                In my free time I like to read and play video games, though I'm not very good at them.
+                Right now I'm learning to 3D model in Blender.
+                I volunteer sometimes with <a href="https://www.stillgoodfood.org/">Still Good Food</a> to help to reduce food waste by gleaning produce that would otherwise go to waste.
+            </p>
+            <p>
+                I also have a pet cat called Ponyo. She likes to run around in the wind with whimsy, kind of like these triangles.
+            </p>
+
+            <h2>Attribution</h2>
+            <p>
+                The following assets were used under MIT license:
+            </p>
+            <ul class="list-attribution">
+                <li>- Crecent moon SVG, <a href="https://github.com/joypixels/emojione">joypixels</a></li>
+                <li>- Triangle SVG, <a href="https://github.com/teenyicons/teenyicons">teenyicons</a></li>
+            </ul>
+
+            <p>Also included:</p>
+            <ul class="list-attribution">
+                <li>- Ringed planet SVG, <a href="https://dribbble.com/AlekseyPopov">Aleksey Popov</a>, PD</li>
+            </ul>
+        </div>
+
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="/about.js"></script>
+    </body>
+</html>

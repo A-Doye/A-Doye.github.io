@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+        
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#006152"
+            data-accent-color="#00a8c6"
+            data-background-color="#d7F7Cf">
+        </div>
+
+        <div id="data-article"
+            data-date-published="26/05/2026"
+            data-time-published="11:22"
+            data-author="A. Doye">
+        </div>
+
+        <div id="data-nav"
+            data-previous-page="/quantum-computing/qimp.html"
+            data-previous-page-title="Quantum Image Processing"
+            data-next-page="/quantum-computing/qimp/frqi.html"
+            data-next-page-title="FRQI">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #006152;
+                --accent-color: #00a8c6;
+                --background-color: #d7F7Cf;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="qc-backdrop" class="sidebar-backdrop-container"></div>
+        <svg id="plain-page">
+            <rect x="0" y="0" width="100%" height="100%"></rect>
+        </svg>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li>
+                    <a class="top-option active" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div>
+                </li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content">
+            <h1>Qubit Lattice</h1>
+
+            <h2>Storing Colour</h2>
+            <p>
+                How can a quantum state be used to store colour? 
+                Classically a bitstrings store values representing colour.
+                Similarly, a qubitstring of computational basis states could be used to encode colour, but using basis states fails to leverage the quantumness of qubits.
+            </p>
+            <p>
+                Alternatively quantum superposition may be used. 
+                Suppose we have some colour value, <span class="math">C</span>, stored in an 8-bit string that we wish to encode on a qubit. 
+                <span class="math">C</span> has a lower and upper bound, so, with some conversion function <span class="math">F</span>, we may express it as an angle:
+            </p>
+            <div class="equation">
+                <p class="math">F(C [0:255]) &rarr; &theta;<sub>C</sub> [0:&pi;]</p>
+            </div>
+            <p>
+                Converting our colour into an angular form is useful as it may now be encoded onto a quantum state using a rotational gate.
+                Observe how an <span class="math">R<sub>Y</sub></span> gate encodes different colour values onto a qubit initialised in the <span class="ket">0</span> state:
+            </p>
+
+            <div class="equation">
+                <div class="multiline-equation">
+                    <p class="math">
+                        C<sub>0</sub>= 0, F(C<sub>0</sub>) = 0 = &theta;<sub>0</sub> &rarr; R<sub>Y</sub>(&theta;<sub>0</sub>)<span class="ket">0</span> = <span class="ket">0</span>
+                    </p>
+                    <p class="math">
+                        C<sub>128</sub>= 128, F(C<sub>128</sub>) &asymp; <span class="frac">&pi;#2</span> = &theta;<sub>&pi;/2</sub> &rarr; R<sub>Y</sub>(&theta;<sub>&pi;/2</sub>)<span class="ket">0</span> =
+                        <span class="frac">1#<span class="sqrt">2</span></span>
+                        (<span class="ket">0</span>+<span class="ket">1</span>)
+                    </p>
+                    <p class="math">
+                        C<sub>255</sub>= 255, F(C<sub>255</sub>) = &pi; = &theta;<sub>&pi;</sub> &rarr; R<sub>X</sub>(&theta;<sub>&pi;</sub>)<span class="ket">0</span> = <span class="ket">1</span>
+                    </p>
+                </div>
+            </div>
+
+            <p>
+                Or more generally a colour encoding qubit <span class="ket">&psi;</span> can be created:
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    R<sub>X</sub>(&theta;<sub>C</sub>)<span class="ket">0</span> = 
+                    cos <span class="frac">&theta;#2</span> <span class="ket">0</span>+ 
+                    sin <span class="frac">&theta;#2</span> <span class="ket">1</span> = 
+                    <span class="ket">&psi;</span>
+                </p>
+            </div>
+
+            <p>
+                Retrieval is achieved with repeated measurement of the colour state.
+                Tones at the extremities of the colour range are deterministc, and can be retrieved from the quantum state with absolute accuracy.
+                Intermediate values rely on finding the average result over multiple measurements of the image state to approximate the original value.
+                The more a colour qubit is measured the more confident we can be in the accuracy of the retrieved colour, though perfect retrieval cannot be guarenteed.
+            </p>
+
+            <h2>Building an image</h2>
+            <p>
+                <span class="reference" data-ref="Salvador El&iacute;as Venegas-Andraca: Discrete Quantum Walks and Quantum Image Processing, PhD Thesis, University of Oxford (2005)">Venegas-Andraca, 2005</span>
+                expands this colour system to store an entire image.
+                The process is relatively simple; a 2D matrix of colour encoding qubits, each encoded with a coresponding colour value from a target image, creates a quantum copy of the image.
+                The above method encodes a single colour value onto a qubit, so in the case of a colour image each <span class="math">RGB</span> value at a pixel location requires its own qubit to encode.
+            </p>
+            <p>
+                This classical simulation visually demonstrates the reconstruction of an image stored using qubit lattice over multiple cycles.
+            </p>
+
+            <div id="lattice-demo" class="demo-container flex-container">
+                <div>
+                    <canvas id="lattice-demo-original-img"></canvas>
+                    <p>Original</p>
+                </div>
+                <div>
+                    <canvas id="lattice-demo-simulation-img"></canvas>
+                    <p>Simulation, Cycle <span id="lattice-demo-cycle-count">0</span></p>
+                    <button id="lattice-demo-run-sim" class="default-button">Simulate</button>
+                </div>
+            </div>
+
+            <p>
+                One 2D matrix copy is enough to start considering approaches for manipulating the image within the quantum computer.
+                When considering the storage space of the entire image however, it may be more useful to imagine the image as a 3D matrix built from layers of 2D copies of the image.
+            </p>
+
+            <h2>Evaluation</h2>
+
+            <p>
+                Representing quantum images using a qubit lattice is a simplistic approach.
+                A one-to-one pixel to qubit ratio is easily understood, and quick to implement on quantum devices.
+            </p>
+            <p>
+                A notable advantage of this simplisity is the shallowness of circuit depth necessary for each encoding cycle.
+                Using a single rotational gate on each qubit reduces the impact of noise during encoding, which is valuable during the NISQ era.
+            </p>
+            <p>
+                This comes at the cost of space inefficiency, with space complexity <span class="math">O(n)</span>.
+                Other quantum methods are far more efficient in this regard.
+            </p>
+        </div>
+        
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="/qc.js"></script>
+        <script src="/quantum-computing/qimp/qubitLattice.js"></script>
+    </body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+        
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#006152"
+            data-accent-color="#00a8c6"
+            data-background-color="#d7F7Cf">
+        </div>
+
+        <div id="data-article"
+            data-date-published="27/05/2026"
+            data-time-published="18:46"
+            data-author="A. Doye">
+        </div>
+
+        <div id="data-nav"
+            data-previous-page="/quantum-computing/qimp/frqi.html"
+            data-previous-page-title="FRQI">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #006152;
+                --accent-color: #00a8c6;
+                --background-color: #d7F7Cf;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="qc-backdrop" class="sidebar-backdrop-container"></div>
+        <svg id="plain-page">
+            <rect x="0" y="0" width="100%" height="100%"></rect>
+        </svg>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li>
+                    <a class="top-option active" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div>
+                </li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content">
+            <h1>Novel Enhanced Quantum Representation (NEQR)</h1>
+
+            <p>
+                Using the locational format introduced by FRQI,
+                <span class="reference" data-ref="Yi Zhang, Kai Lu, Yinghui Gao & Mo Wang: 
+                NEQR: a novel enhanced quantum representation of digital images, Quantum Information Processing Vol. 12, 2833-2860 (2013)">Zhang et. al, 2013</span> 
+                present an alternative method for encoding colour from which it is possible to retrieve an exact copy of the original image.
+            </p>
+
+            <p>
+                Instead of utilising superposition to encode colour a qubitstring is utilised.
+                This method dramatically reduce the measurement cycles necessary to retrieve the image at the cost of a modest increase in qubits necessary.
+                A colour qubitstring also enables new manipulations on the encoded image state, as operations may be conditioned upon the value stored within the qubit string.
+            </p>
+
+            <h2>Encoding colour onto a qubit string</h2>
+
+            <p>
+                A square, greyscale image with side length <span class="math">n<sup>2</sup></span> and a
+                <span class="annotated-text" title="Colour depth is the number of possible colour values that can be stored">colour depth</span> of 
+                <span class="math">q<sup>2</sup></span> may be stored in the NEQR format using <span class="math">2n+q</span> qubits.
+                Initial preparation into the intermediary <span class="ket">H</span> state is similar to FRQI:
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    <b class="no-italic">H</b>
+                    <span class="ket">0</span><sup>2n+q</sup>=
+                    (I<sup><span class="no-italic">&otimes;</span>q</sup><span class="no-italic">&otimes;</span>H<sup><span class="no-italic">&otimes;</span>2n</sup>)
+                    <span class="ket">0</span><sup>2n+q</sup>=
+                    <span class="frac">1#2<sup>n</sup></span>
+                    <span class="ket">0</span><sup><span class="no-italic">&otimes;</span>q</sup>
+                    <span class="no-italic">&otimes;</span>
+                    <span class="sum">2<sup>n</sup>-1~i=0</span>
+                    <span class="ket">i</span>=
+                    <span class="ket">H</span>
+                </p>
+            </div>
+
+            <p>
+                The <span class="math"><b class="no-italic">H</b>=I<sup><span class="no-italic">&otimes;</span>q</sup><span class="no-italic">&otimes;</span>H<sup><span class="no-italic">&otimes;</span>2n</sup></span>
+                places the positional qubits in superposition without effecting the colour encoding qubits.
+            </p>
+
+            <p>
+                To encode colour the original paper describes a quantum oracle <span class="math"><span class="no-italic">&Omega;</span><sub>i</sub><sup>m</sup></span>
+                which transforms the <span class="math">m</span>-th colour encoding qubit to the corresponding classical value of the <span class="math">m</span>-th bit at location <span class="math">i</span>,
+                <span class="math"><span class="no-italic">C</span><sub>i</sub><sup>m</sup></span>.
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    <span class="no-italic">&Omega;</span><sub>i</sub><sup>m</sup>:<span class="ket">0</span><sup><span class="no-italic">&otimes;</span>q</sup>
+                    &rarr; <span class="ket">0</span><sup><span class="no-italic">&otimes;</span>q-1</sup>
+                    <span class="no-italic">&otimes;</span><span class="ket"><span class="no-italic">C</span><sub>i</sub><sup>m</sup></span>
+                </p>
+            </div>
+
+            <p>
+                When reapplied for all values of <span class="math">m</span> at a location, defined as 
+                <span class="math"><span class="no-italic">&Omega;</span><sub>i</sub>=
+                <span class="no-italic">&otimes;</span><sub>m=0</sub><sup>q-1</sup><span class="no-italic">&Omega;</span><sub>i</sub><sup>m</sup></span>
+                the oracle has the effect of copying the classical colour bitstring onto the qubit string.
+            </p>
+
+            <p>
+                This oracle is useful, as it allows us to directly store classical data in quantum states enabling accurate retrieval.
+                Alone its use would be limited; storing in quantum basis states is equivalent to storing information classically.
+                Quantumness is introduced by entangling colour encoding with the locational qubits, using the same projector process as in FRQI to construct a colour encoding operator <span class="math">U<sub>k</sub></span>
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    <span class="math">U<sub>k</sub></span> = 
+                    <span class="no-italic">&Omega;</span><sub>k</sub>
+                    <span class="no-italic">&otimes;</span>
+                    <span class="ket">k</span><span class="bra">k</span>+
+                    I<sup><span class="no-italic">&otimes;</span>q</sup>
+                    <span class="no-italic">&otimes;</span>
+                    <span class="sum">2<sup>2n</sup>-1~j=0, j&NotEqual;k</span>
+                    <span class="ket">j</span><span class="bra">j</span>
+                </p>
+            </div>
+
+            <p>
+                Which produces the complete NEQR state when applied for all values of <span class="math">k</span> within the image.
+            </p>
+
+            <h2>Variations</h2>
+
+            <p>
+                NEQR and its derivatives are perhaps the most popular encoding format for QIMP currently.
+                The use of a qubit string to enable bitwise logic on the quantum state (through CNOT gates) broadens the format's applicability.
+            </p>
+
+            <p>
+                <span class="reference" data-ref="Jianzhi Sang, Shen Wang & Qiong Li: A novel quantum representation of color digital images,
+                Quantum Information Processing Vol. 16, Article 42 (2017)">Sang et al, 2017</span> introduced the Novel Colour representation of Quantum Images (NCQI)
+                format to enable full <span class="math">RGB</span> colour on the NEQR format.
+                This is achieved through the simple addition of additional qubits for each channel, requring <span class="math">2n+3q</span> qubits.
+                Where <span class="math">f<sub>C</sub>(i)</span> is the bit string of channel <span class="math">C</span> at position <span class="math">i</span> the NCQI format is expressed:
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    <span class="ket"><span class="no-italic">&Psi;</span><sub>NCQI</sub></span>=
+                    <span class="frac">1#2<sup>n</sup></span>
+                    <span class="sum">2<sup>n</sup>-1~i=0</span>
+                    <span class="ket">f<sub>R(i)</sub></span><span class="ket">f<sub>G(i)</sub></span><span class="ket">f<sub>B(i)</sub></span>
+                    <span class="ket">i</span>
+                </p>
+            </div>
+
+            <p>
+                The exploration of this approach was continued by
+                <span class="reference" data-ref="Jie Su, Xuchao Guo, Chengqi Liu, Shuhan Lu & Lin Li: An improved novel quantum image representation and its experimental test on IBM quantum experience,
+                Scientific Reports Vol. 11, Article No. 13879 (2021)">Su et. al, 2021</span>
+                with the addition of a fourth, alpha encoding channel to create the Improved-NCQI format.
+            </p>
+
+            <p>
+                An alternative method to include colour channels is presented by <span class="reference" data-ref="Kai Liu, Yi Zhang, Kai Lu, Xiaoping Wang & Xin Wang: 
+                An Optimized Quantum Representation for Color Digital Images, International Journal of Theoretical Physics Vol. 57, 2938-2948 (2018)">Liu et. al, 2018</span>.
+                To enable <span class="math">RGBa</span> colour images 2 additional 'channel' qubits are added to the NEQR format, for a total qubit size of <span class="math">2n+q+2</span>.
+                These channel qubits are prepared with a Hadamard transform, and the colour encoding operation made additionally dependent upon their state.
+                Ignoring the positional qubits, the channel and colour encoding qubits at location <span class="math">i</span> may take the form:
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    <span class="frac">1#2</span> 
+                        (<span class="ket">00</span><span class="ket">f<sub>R(i)</sub></span>+
+                        <span class="ket">01</span><span class="ket">f<sub>G(i)</sub></span>+
+                        <span class="ket">10</span><span class="ket">f<sub>B(i)</sub></span>+
+                        <span class="ket">11</span><span class="ket">f<sub>a(i)</sub></span>)
+                </p>
+            </div>
+
+            <p>
+                <span class="reference" data-ref="Hai-Sheng Li, Xiao Chen, Haiying Xia, Yan Liang & Zuoshan Zhou: A Quantum Image Representation Based on Bitplanes,
+                IEEE Access Vol. 6, 62396-62404 (2018)">Li et al, 2018</span> use a similar approach to reduce the qubits necessary to store an NEQR image.
+                Bitplane Representation of Quantum Images (BRQI) adds a string of bitplane representing qubits, encoding colour onto a single qubit conditioned on the bitplane qubits.
+                The format presented is for greyscale images, though expansion to colour using the techniques described above is trivial.
+            </p>
+        </div>
+        
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="/qc.js"></script>
+        <script src="/quantum-computing/qimp/frqi.js"></script>
+    </body>
+</html>

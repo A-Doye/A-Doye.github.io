@@ -1,0 +1,11 @@
+<svg width="88" height="215" xmlns="http://www.w3.org/2000/svg">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <ellipse id="cnot-source" class="gate-line" cx="44" cy="171" rx="40" ry="40" stroke-width="8"/>
+  <line fill="none" stroke-width="8" x1="43.66102" y1="41" x2="43.66102" y2="131" stroke-linejoin="undefined" stroke-linecap="undefined"/>
+  <line fill="none" stroke-width="8" x1="19" y1="171" x2="69" y2="171" stroke-linejoin="undefined" stroke-linecap="undefined"/>
+  <line fill="none" stroke-width="8" x1="44" y1="146" x2="44" y2="196" stroke-linejoin="undefined" stroke-linecap="undefined"/>
+  <ellipse id="cnot-target" class="gate-line" stroke-width="6" cx="44" cy="21" rx="18" ry="18"/>
+ </g>
+
+</svg>

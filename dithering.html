@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#e74c3c"
+            data-accent-color="#e74c3c"
+            data-background-color="#EDE3D6">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #e74c3c;
+                --accent-color: #000000;
+                --background-color: #EDE3D6;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="dither-backdrop" class="sidebar-backdrop-container">
+            <div class="left sidebar">
+                <canvas id="left-dither-canvas" class="sidebar-canvas"></canvas>
+            </div>
+            <div class="center"></div>
+            <div class="right sidebar">
+                <canvas id="right-dither-canvas" class="sidebar-canvas"></canvas>
+            </div>
+        </div>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li><a class="top-option" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div></li>
+                <li><a class="top-option active" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content">
+            <h1>Dithering</h1>
+
+            <div class="flex-container">
+                <div class="dither-controls">
+                    <form>
+                        <h3 class="grid-header">Floyd-Steinberg Dither</h3>
+
+                        <label for="image-input">Custom Image</label>
+                        <input type="file" id="image-input" accept=".png, .jpg, .jpeg .webp .bmp">
+                            
+                        <!-- <label for="scale-toggle">Toggle scaling</label>
+                        <div class="custom-checkbox-container">
+                            <input type="checkbox" id="scale-toggle">
+                            <label for="scale-toggle">
+                                <span class="custom-checkbox"></span>
+                                <span class="custom-checkbox-highlight"></span>
+                            </label>
+                        </div> -->
+                    
+                        <label for="palette-toggle">Toggle colour</label>
+                        <div class="custom-checkbox-container">
+                            <input type="checkbox" id="palette-toggle" checked>
+                            <label for="palette-toggle">
+                                <span class="custom-checkbox active"></span>
+                                <span class="custom-checkbox-highlight active"></span>
+                            </label>
+                        </div>
+
+                        <label for="linear-toggle" title="Using a linear colourspace works best with large colour palettes" style="cursor: help">Linear colourspace</label>
+                        <div class="custom-checkbox-container">
+                            <input type="checkbox" id="linear-toggle" checked>
+                            <label for="linear-toggle">
+                                <span class="custom-checkbox active"></span>
+                                <span class="custom-checkbox-highlight active"></span>
+                            </label>
+                        </div>
+
+                        <label for="pixel-size-slider">Pixel Size</label>
+                        <div class="form-row slider-container">
+                            <input type="range" min="1" max="12" value="1" class="slider" id="pixel-size-slider">
+                            <span class="slider-chaser"></span>
+                            <p><span id="pixel-size-value">1</span>px</p>
+                        </div>
+
+                        <label class="two-tone-select" for="colour-select-one">Colour 1</label>
+                        <input class="two-tone-select" type="color" id="colour-select-one" name="colour-select-one" value="#ffffff">
+
+                        <label class="two-tone-select" for="colour-select-two">Colour 2</label>
+                        <input class="two-tone-select" type="color" id="colour-select-two" name="colour-select-two" value="#000000">
+
+                        <label class="palette-select" for="palette-dropdown">Palette</label>
+                        <select class="palette-select" name="palette-dropdown" id="palette-dropdown">
+                            <option value="dawn-bringer-8">DawnBringer8</option>
+                            <option value="dawn-bringer-16">DawnBringer16</option>
+                            <option value="dawn-bringer-32">DawnBringer32</option>
+                            <option value="game-boy">Game boy</option>
+                            <option value="oil-6">Oil6</option>
+                            <option value="funky-future-8">Funky future 8</option>
+                            <option value="pollen-8">Pollen8</option>
+                            <option value="nostalg-os">NostalgOS (12)</option>
+                            <option value="ibm-pc">IBM PC (16)</option>
+                            <option value="vga">Microsoft VGA (16)</option>
+                            <option value="plan-9">Plan 9 (23)</option>
+                            <option value="greyscale-4">Greyscale (4)</option>
+                            <option value="greyscale-8">Greyscale (8)</option>
+                            <option value="greyscale-16">Greyscale (16)</option>
+                            <option value="greyscale-32">Greyscale (32)</option>
+                        </select>
+
+                        <input type="submit" value="Submit" style="display: none;">
+                    </form>
+
+                    <p style="text-align: center;">
+                        This service is handled entirely on your device.
+                        Custom images are not stored or shared externally.
+                    </p>
+                </div>
+
+                
+                <div id="dither-container">
+                        <canvas class="dither-canvas" id="output-dither-canvas">
+                </div>
+            </div>
+
+            <noscript>To experience the full site please enable JavaScript.</noscript>
+
+            <h2>What is dithering?</h2>
+            <p> Dithering is a method to reduce the colour depth of an image whilst retaining a higher degree of perceived colour depth. 
+                This means that a dithered image can be created with a far smaller colour palette than a typical digital image, whilst still looking good.
+                This is possible because the human eye can perceive groups close groups of different colours as one entirely new colour, not present in the palette.<br><br>
+                Because dithering uses less colours than a full quality image it can reduce the size of image files.
+                This was particularly useful when storage space was limited or internet connections slow.
+                Dithering is less used today, but remains popular as a stylistic choice in video games such as <a href="https://obradinn.com/">Obra Dinn</a> 
+                and <a href="http://koshutin.com/">Highfleet</a>.
+            </p>
+
+            <h2>How can images be dithered?</h2>
+            <p>Image dithering can be split into two types of algorithm, ordered and error diffusion.</p>
+
+            <h3>Ordered dithering</h3>
+            <p>
+                Ordered dithering uses a matrix of thresholds to determine the colour at a given pixel location.
+                Suppose we want to convert a greyscale image to have a bit depth of just one, representing either black or white.
+                At each pixel location in the image the colour of the pixel is compared to its corresponding threshold in the threshold matrix.
+                If the value exceeds the threshold, the pixel is made white, else black.
+                The threshold matrix, usually a square of size 4x4 to 16x16, is duplicated to cover the entire image.
+            </p>
+            <p>
+                Ordered dithering is easier to implement and produces a distinctive visual effect.
+                Unlike error diffusion algorithms, ordered dithering does not require pixels to share knowledge which can allow for fast implementation through parallel processing,
+                such as through graphics cards.
+            </p>
+
+            <h3>Error-diffusion dithering</h3>
+            <p>
+                Typically, error diffusing algorithms work pixel by pixel, starting in a corner of the image.
+                They take the colour value of a pixel and assign it the closest new colour in a given limited palette.
+                Once this colour is found the error value produced by this assignment is calculated.
+                The error value quantifies the difference between the original pixel colour and its newly assigned value.
+                The error is then diffused (distributed) to nearby pixels using a kernel.
+                Pixels that are not yet dithered receive a portion of the error value according to the kernel.
+                Most kernels ensure 100% of the error value is passed on in small proportions to a group of nearby pixels.
+                Once the error has been diffused, the algorithm moves to dither the next pixel, finding the nearest colour to the colour of the pixel plus any accumulated error.
+                The kernel is applied line by line until the image is entirely dithered.
+            </p>
+            <p>
+                Error-diffusion generally produces higher quality results than ordered dithering, but can be more intensive.
+                Choice of a good kernel and a reasonably sized colour palette can produce images with colour reduction that is not imediately noticeable.
+                Floyd-Steinberg, Stucki, Burkes and Sierra are examples of error-diffusion algorithms.
+            </p>
+        </div>
+
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="/dither.js" type="module"></script>
+    </body>
+</html>

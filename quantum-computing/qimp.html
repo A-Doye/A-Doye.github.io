@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="/styles.css">
+        
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#006152"
+            data-accent-color="#00a8c6"
+            data-background-color="#d7F7Cf">
+        </div>
+
+        <div id="data-nav"
+            data-next-page="/quantum-computing/qimp/qubit-lattice.html"
+            data-next-page-title="Qubit Lattice">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #006152;
+                --accent-color: #00a8c6;
+                --background-color: #d7F7Cf;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+            }
+        </script>
+    </head>
+
+    <body id="main-body">
+        <div id="qc-backdrop" class="sidebar-backdrop-container"></div>
+        <svg id="plain-page">
+            <rect x="0" y="0" width="100%" height="100%"></rect>
+        </svg>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li>
+                    <a class="top-option active" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div>
+                </li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="page-content">
+            <h1>Quantum Image Processing</h1>
+
+            <p>
+                Quantum image processing <span class="annotated-text" title="Why the M? 'QIP' commonly refers to Quantum Information Processing">(QIMP)</span> is the study of processing visual information using quantum devices. 
+                The field can be split into two main areas:
+            </p>
+
+            <ul>
+                <li>How can we store images in and retrieve images from quantum states?</li>
+                <li>How can we use and manipulate images stored in quantum states?</li>
+            </ul>
+
+            <p>
+                Long term storage of images on quantum computers is not advisable due to the fragile nature of quantum states.
+                Images stored on current quantum devices quickly become irretrievable due to decoherence, whereas classical devices store images very effectively.
+                Instead of prolonged storage, QIMP focuses on how quantum mechanics may be leveraged to perform some computation on the image more efficiently than classically possible.
+            </p>
+
+            <p>
+                QIMP has applied the uniquely quantum properties of superposition and entanglement to research areas including edge detection, machine learning and steganography.
+                <!-- This page walks through some simplistic and popular methods for encoding images into quantum states. -->
+            </p>
+
+            <h2>Working with quantum images</h2>
+
+            <p>
+                Typically, QIMP follows a three step approach:
+            </p>
+
+            <ol>
+                <li>A classical image is encoded into a quantum state using a parameterised quantum circuit.</li>
+                <li>The image is manipulated in some way using quantum operations.</li>
+                <li>Measurements are taken to retrieve the altered image. Usually multiple 
+                    measurements of the quantum image are needed to construct a complete result.</li>
+            </ol>
+
+            <p>
+                As multiple measurements of the manipulated state are necessary and quantum states collapse upon measurement, it is necessary to encode and manipulate the image repetedly to gain a complete result.
+                This creates a desire for good encoding algorithms to be efficient and use as few gates as possible when encoding.
+            </p>
+        </div>
+        
+        <footer>Copyright A. Doye 2026</footer>
+
+        <script src="/app.js"></script>
+        <script src="/qc.js"></script>
+    </body>
+</html>
