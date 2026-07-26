@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>a-doye.io</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-lGEuBMQC.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-CxWyl1U8.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-RM4Cv9BW.png">
+        <link rel="manifest" href="/assets/site-BwHFeIBa.webmanifest">
+        
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#006152"
+            data-accent-color="#00a8c6"
+            data-background-color="#d7F7Cf">
+        </div>
+
+        <div id="data-article"
+            data-date-published="26/07/2026"
+            data-time-published="15:07"
+            data-author="A. Doye">
+        </div>
+
+        <div id="data-nav"
+            data-previous-page="/quantum-computing/qimp/neqr.html"
+            data-previous-page-title="NEQR">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #006152;
+                --accent-color: #00a8c6;
+                --background-color: #d7F7Cf;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+
+                document.documentElement.style.setProperty('--primary-color', primaryColor);
+                document.documentElement.style.setProperty('--accent-color', accentColor);
+                document.documentElement.style.setProperty('--background-color', backgroundColor);
+            }
+            else {
+                const defaultTheme = document.getElementById('default-theme').dataset;
+                document.documentElement.style.setProperty('--primary-color', defaultTheme.primaryColor);
+                document.documentElement.style.setProperty('--accent-color', defaultTheme.accentColor);
+                document.documentElement.style.setProperty('--background-color', defaultTheme.backgroundColor);
+            }
+        </script>
+      <script type="module" crossorigin src="/assets/transformations-CCuoV0un.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/app-yCKj_ipM.js">
+      <link rel="modulepreload" crossorigin href="/assets/qc-C2QbG5cG.js">
+      <link rel="stylesheet" crossorigin href="/assets/app-Bqw86Nls.css">
+    </head>
+
+    <body id="main-body">
+        <div id="qc-backdrop" class="sidebar-backdrop-container"></div>
+        <svg id="plain-page">
+            <rect x="0" y="0" width="100%" height="100%"></rect>
+        </svg>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li>
+                    <a class="top-option active" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div>
+                </li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="side-nav" data-origin="qimp"></div>
+
+        <div id="page-content">
+            <h1>Transforming quantum images</h1>
+
+            <p>
+                So far this section has looked at how to encode images into quantum states.
+                Encoding alone is not useful; storage of images is already easily achieved on classical devices.
+            </p>
+
+            <p>
+                Instead, encoding methods much be chosen with how the image is to be used once it is encoded in mind.
+                By selecting an appropriate encoding method one can significantly reduce the number of gates necessary to achieve desired alterations to an image.
+            </p>
+
+            <h2>Simple transformations</h2>
+
+            <p>
+                Suppose we wish to invert the colour of a black and white image.
+                In the classical bitmap case this would require updating every pixel value with a new, inverted value.
+                The case for an image encoded using Qubit Lattice encoding is similar.
+                Each qubit in the image requires updating with the application of a single NOT gate.
+                This operation is shallow in circuit depth, but requires the application of many gates.
+            </p>
+
+            <p>
+                Suppose instead the image is now encoded using an FRQI state.
+                It is now possible to invert the colour of the entire state using a single NOT gate!
+                By applying a single NOT gate to the previously described colour encoding qubit the colour stored in all pixel locations are inverted <i>simulteneously</i>.
+            </p>
+
+            <div class="equation">
+                <div class="multiline-equation">
+                    <p class="math">
+                        X<span class="no-italic">&otimes;</span>I<sup><span class="no-italic">&otimes;</span>2n</sup><span class="ket">FRQI</span> = 
+                        <span class="frac">1#2<sup>n</sup></span>
+                        
+                        <span class="sum">2<sup>2n</sup>-1~i=0</span>
+                        (cos &theta;<sub>i</sub> X<span class="ket">0</span>+ 
+                        sin &theta;<sub>i</sub> X<span class="ket">1</span>)
+                        <span class="no-italic">&otimes;</span>
+                        I<sup><span class="no-italic">&otimes;</span>2n</sup><span class="ket">i</span>
+                    </p>
+
+                    <p class="math">
+                        = <span class="frac">1#2<sup>n</sup></span>
+                        <span class="sum">2<sup>2n</sup>-1~i=0</span>
+                        (sin &theta;<sub>i</sub> <span class="ket">0</span>+ 
+                        cos &theta;<sub>i</sub> <span class="ket">1</span>)
+                        <span class="no-italic">&otimes;</span>
+                        <span class="ket">i</span>
+                    </p>
+                </div>
+            </div>
+
+            <p>
+                It is easily observed that the colour encoding amplitudes associated with the <span class="ket">0</span> and <span class="ket">1</span> states have been swapped, constituting a colour inversion.
+                Application of a NOT gate to each of the colour encoding qubits of the NEQR state performs a similarly efficient colour inversion.
+            </p>
+
+            <p>
+                Another manipulation that may be performed efficiently within the quantum realm is the reflection of an image.
+            </p>
+
+            <p>
+                This can be achieved on FRQI-like states with the application of NOT gates to locational encoding qubits.
+                Suppose we wish to reflect the image horizontally.
+                First, the state is rewritten to separate the locational qubits of the FRQI state into <span class="math">x</span> and <span class="math">y</span> positional encoding.
+                A NOT gate is then applied to all <span class="math">x</span> postional encoding qubits.
+            </p>
+
+            <div class="equation">
+                <div class="multiline-equation">
+                    <p class="math">
+                        I<span class="no-italic">&otimes;</span>X<sup><span class="no-italic">&otimes;</span>n</sup>
+                        <span class="no-italic">&otimes;</span>I<sup><span class="no-italic">&otimes;</span>n</sup>
+                        <span class="ket">FRQI</span> = 
+                        <span class="frac">1#2<sup>n</sup></span>
+                        
+                        <span class="sum">2<sup>n</sup>-1~x=0</span>
+                        <span class="sum">2<sup>n</sup>-1~y=0</span>
+                        (cos &theta;<sub>xy</sub> I<span class="ket">0</span>+ 
+                        sin &theta;<sub>xy</sub> I<span class="ket">1</span>)
+                        <span class="no-italic">&otimes;</span>
+                        X<sup><span class="no-italic">&otimes;</span>n</sup><span class="ket">x</span>
+                        I<sup><span class="no-italic">&otimes;</span>n</sup><span class="ket">y</span>
+                    </p>
+
+                    <p class="math">
+                        = <span class="frac">1#2<sup>n</sup></span>
+                        
+                        <span class="sum">2<sup>n</sup>-1~x=0</span>
+                        <span class="sum">2<sup>n</sup>-1~y=0</span>
+                        (cos &theta;<sub>xy</sub> <span class="ket">0</span>+ 
+                        sin &theta;<sub>xy</sub> <span class="ket">1</span>)
+                        <span class="no-italic">&otimes;</span>
+                        <span class="ket">~x</span>
+                        <span class="ket">y</span>
+                    </p>
+                </div>
+            </div>
+
+            <p>
+                Where <span class="ket">~x</span> denotes inversion of the <span class="ket">x</span> qubitstring.
+                Inversion of the <span class="math">x</span> has the effect of producing a reflected image when it is recovered.
+                This process is also efficient when compared to its classical counterpart.
+            </p>
+        
+        <footer>Copyright A. Doye 2026</footer>
+
+    </body>
+</html>

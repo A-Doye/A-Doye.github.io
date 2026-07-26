@@ -1,4 +1,4 @@
-import{n as e,t}from"./app-C8qlVa_X.js";var n=e((()=>{var e=`<svg width="40px" height="40px">
+import{n as e,t}from"./app-yCKj_ipM.js";var n=e((()=>{var e=`<svg width="40px" height="40px">
   <circle cx="50%" cy="50%" r="50%"/>
 </svg>`,t=`<svg width="100" height="100">
   <polygon points="50,0 56,44 100,50 56,56 50,100 44,56 0,50 44,44"
