@@ -12,7 +12,7 @@
         <!-- This div stores a default theme for JS to access at any time -->
         <div id="default-theme" 
             data-primary-color="#3ccbed"
-            data-accent-color="#eeecab"
+            data-accent-color="#8BD0E5"
             data-background-color="#000F1C">
         </div>
 
@@ -20,7 +20,7 @@
         <style id="theme-vars">
             :root {
                 --primary-color: #3ccbed;
-                --accent-color: #eeecab;
+                --accent-color: #8BD0E5;
                 --background-color: #000F1C;
             }
         </style>
@@ -51,9 +51,9 @@
                 document.documentElement.style.setProperty('--background-color', defaultTheme.backgroundColor);
             }
         </script>
-      <script type="module" crossorigin src="/assets/main-Bb2AUYC6.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/app-yCKj_ipM.js">
-      <link rel="stylesheet" crossorigin href="/assets/app-Bqw86Nls.css">
+      <script type="module" crossorigin src="/assets/main-B7S3sxbR.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/app-COs_EfNK.js">
+      <link rel="stylesheet" crossorigin href="/assets/app-LtuQ1Ly5.css">
     </head>
 
     <body id="main-body">
@@ -84,48 +84,54 @@
             <div class="right"></div>
         </ul>
 
+        <div id="cube-container"></div>
+        <canvas id="cube-dither-canvas"></canvas>
+        
+
         <div id="page-content">
-            <h1>Welcome to a-doye.io</h1>
+            
+            <div class="outline-text">
+                <h1>Welcome to a-doye.io</h1>
 
-            <p>
-                Why not click around and explore a little?
-            </p>
-            <p>
-                Things are still under construction so there's not much to see. Mobile devices are not yet supported!
-            </p>
-            <p>
-                I made this website to share my interests in software development and quantum computing.
-                It's been made to be entirely customisable. Don't like the theme? Pick a new one!
-            </p>
+                <p>
+                    Hi! Welcome to my website.
+                </p>
 
-            <h2>Explore</h2>
+                <p>
+                    I'm a quantum computing researcher at <a href="https://www.simula.no/">Simula Research Laboratory</a>, Oslo, as part of the <a href="https://norqsoft.no/">Norwegian Quantum Software Center (NorQSoft)</a>.
+                    My research interests are in quantum software development, and my work focusses more specifically on bug fixing within quantum software and how machine learning can help.
+                </p>
+
+                <p>
+                    I made this website to share my interests in software development and quantum computing.
+                    Theres pages of information related to my past work to explore.
+                    It's been made to be entirely customisable. 
+                    Don't like the theme? Pick a new one!
+                </p>
+
+                <p>
+                    So why not click around and explore a little?
+                </p>
+
+                <p>
+                    The site is still in active development, with more content to come in the future.
+                    Mobile devices are not yet supported!
+                </p>
+
+                <h2>Explore</h2>
+            </div>
 
             <div class="flex-container subnav-bar">
                 <a class="subnav-option" href="quantum-computing.html">Quantum Computing</a>
                 <div class="subnav-divider"></div>
                 <a class="subnav-option" href="dithering.html">Dithering</a>
             </div>
-            
-            <!-- <h3>Quantum Computing</h3>
-
-            <p>
-                I'm interested in quantum computing from a computer scientist's perspective.
-                I like programming quantum devices to simulate potential applications.
-                Find out more in the <a href="/quantum-computing.html">quantum computing hub</a>.
-            </p>
-
-            <h3>Dithering</h3>
-
-            <p>
-                Dithering is a compression method for images, though recently its more popularly applied as a stylistic choice.
-                You can learn more about dithering and <a href="/dithering.html">dither your own images here.</a>
-            </p> -->
         </div>
 
         
 
         <footer>Copyright A. Doye 2026</footer>
-
+
         <!-- <script type="module" src="qcircEditor.js" type="module"></script> -->
     </body>
 </html>

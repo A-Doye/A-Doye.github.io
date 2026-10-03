@@ -12,7 +12,7 @@
         <!-- This div stores a default theme for JS to access at any time -->
         <div id="default-theme" 
             data-primary-color="#006152"
-            data-accent-color="#00a8c6"
+            data-accent-color="#43A47B"
             data-background-color="#d7F7Cf">
         </div>
 
@@ -22,16 +22,11 @@
             data-author="A. Doye">
         </div>
 
-        <div id="data-nav"
-            data-previous-page="/quantum-computing/qimp/neqr.html"
-            data-previous-page-title="NEQR">
-        </div>
-
         <!-- This style & script sets the initial theme correctly -->
         <style id="theme-vars">
             :root {
                 --primary-color: #006152;
-                --accent-color: #00a8c6;
+                --accent-color: #43A47B;
                 --background-color: #d7F7Cf;
             }
         </style>
@@ -62,10 +57,10 @@
                 document.documentElement.style.setProperty('--background-color', defaultTheme.backgroundColor);
             }
         </script>
-      <script type="module" crossorigin src="/assets/transformations-CCuoV0un.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/app-yCKj_ipM.js">
-      <link rel="modulepreload" crossorigin href="/assets/qc-C2QbG5cG.js">
-      <link rel="stylesheet" crossorigin href="/assets/app-Bqw86Nls.css">
+      <script type="module" crossorigin src="/assets/transformations-aWEvKoY_.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/app-COs_EfNK.js">
+      <link rel="modulepreload" crossorigin href="/assets/qc-B9hrAqBM.js">
+      <link rel="stylesheet" crossorigin href="/assets/app-LtuQ1Ly5.css">
     </head>
 
     <body id="main-body">
@@ -203,6 +198,57 @@
                 Inversion of the <span class="math">x</span> has the effect of producing a reflected image when it is recovered.
                 This process is also efficient when compared to its classical counterpart.
             </p>
+
+            <h2>Increasing control</h2>
+
+            <p>
+                More advanced transformations are made possible addition of control qubits to the quantum operations being performed.
+                For example, to invert the colour at a single pixel location within and FRQI image a NOT gate should be applied to the colour encoding qubit, conditioned
+                on a the control sequence that is the target location.
+            </p>
+
+            <p>
+                By reducing the number of control qubits one may selectively target areas of the image to target simulteneously.
+                Suppose one wishes to invert the colour of only the top-left quadrant of an FRQI image.
+                By controlling the NOT gate on the most significant <span class="math">x</span> and <span class="math">y</span> encoding qubits being in the 
+                <span class="ket">0</span> state this transformation may be achieved with a single gate.
+            </p>
+
+            <p>
+                The circuit diagram below shows the same top-left quadrant inversion applied to an NEQR state.
+                Three multiple control (in this case Toffoli) gates are necessary as the state has 3 colour encoding qubits.
+            </p>
+
+            <div class="captioned-svg">
+                <div src="../../images/svg/generated-circuits/sevenQubitNEQRTargettedInversion.svg"></div>
+                <p>
+                    Circuit for colour inversion of the top-left quadrant of an NEQR image.
+                    By altering the control sequence of the inversion gates different quadrants within the image may be targetted.
+                </p>
+            </div>
+
+            <p>
+                The areas which may be efficiently targetted using this approach are limited to those permissable by the coordinate system.
+                Suppose now instead we wish to invert an area described by the top-left quadrant shifted right by one pixel position.
+                Three operations are now required to invert the same number of pixels:
+                one to invert the top-left quadrant as previously achieved, another to return the <span class="ket">0<sup>th</sup></span> column to its original values
+                and a final gate to invert the first column of the top-right quadrant.
+            </p>
+
+            <p>
+                In the case of NEQR like states it is also possible to control operations dependent on the colour bitstring at a location.
+                It is for this reason that NEQR is a popular state to work with.
+            </p>
+
+            <h2>Compressing image states</h2>
+
+            <p>
+                Using this knowledge it is possible to compress QIMP states, reducing the number of gates required to fully encode an image.
+            </p>
+
+            <!-- <p>
+                If an area within an image 
+            </p> -->
         
         <footer>Copyright A. Doye 2026</footer>
 

@@ -51,7 +51,7 @@
                 document.documentElement.style.setProperty('--background-color', defaultTheme.backgroundColor);
             }
         </script>
-      <script type="module" crossorigin src="/assets/qnlp-aWEvKoY_.js"></script>
+      <script type="module" crossorigin src="/assets/testin-aWEvKoY_.js"></script>
       <link rel="modulepreload" crossorigin href="/assets/app-COs_EfNK.js">
       <link rel="modulepreload" crossorigin href="/assets/qc-B9hrAqBM.js">
       <link rel="stylesheet" crossorigin href="/assets/app-LtuQ1Ly5.css">
@@ -85,56 +85,41 @@
             <div class="right"></div>
         </ul>
 
-        <div id="side-nav" data-origin="qnlp"></div>
+        <!-- <div id="side-nav" data-origin="qimp"></div> -->
 
         <div id="page-content">
-            <h1>Quantum Natural Language Processing</h1>
+            <h1>Quantum Software Testing</h1>
 
             <p>
-                Computers are unimaginative creatures, rigourously following commands given to them by programs.
-                These programs are usually created using programming languages, languages specifically created for computers to understand.
-                Usually these langauges have a small vocabulary and are unambiguous.
-            </p>
-            
-            <p>
-                Given the amount of knowledge stored in every day language, it is advantageous that we develop methods for computers to understand everyday language.
-                This field is known as natural language processing (NLP).
-            </p>
-
-            <h2>Introducing Quantumness</h2>
-
-            <p>
-                Natural language processing is usually aproached as a machine learning task.
-                Given a corpus of examples of langauge, how can we construct an algorithm such that the computer is able to extract meaninguful information from further examples of the language?
-            </p>
-            
-            <p>
-                Quantum computers are considered by many to possess the potential to improve machine learning capabilities over their classical counterparts.
-                This thought is well founded.
-                For example, given that in the general case a larger corpus to learn from improves results, the ability to search such a large space more efficiently (through quantum algorithms such as Grover's search) would suggest the potential for more effective models.
+                Classically, software testing is a well established field which has been extensively researched and employed at scale to produce reliable programs.
+                Modern approaches typically employ testing at a range of levels, from low level unit tests to more complex integration and system tests, as part of automated processes to ensure a program's compliance with a predetermined specification.
             </p>
 
             <p>
-                Quantum natural language processessing (QNLP) explores this hypothesis in the context of NLP.
-                Typically algorithms within the field follow one of two approaches:
+                Comparatively, quantum software testing is a new field presenting novel challenges and barriers in the creation of reliable software.
+                Perhaps the most impactful changes are as a result of destructive measurement and its rammifications on how testing can be conducted.
             </p>
 
-            <ol>
-                <li>
-                    Statistical: Basing understanding on trends within the corpus, following the oft quoted principle 'you will know a word by the neighbours it keeps'.
-                    Most classical models also follow this aproach.
-                </li>
-                <li>
-                    Logical: Basing understanding on grammar.
-                    The grammatical role of a word within a sentence dictates how it is understood.
-                </li>
-            </ol>
-            
             <p>
-                The latter of these approaches is a popular area of research within QNLP.
-                A grammatical apporach possesses the advantage of being more easily understood by humans when trying to follow the devices' logic.
-                This stands in contrast to statistical methods which often rely on neural network structures for learning.
-                Such structures are effective, but pose a black box to humans which wish to follow how a computer came to the result that it did.
+                Suppose there exists a complex program that we wish to test.
+                One approach may be to take a variable and observe how it is changed throughout the program and checking whether or not its value is within expected bounds.
+            </p>
+
+            <p>
+                In the classical case one can easily check the value of the variable and ensure it is with necessary bounds.
+                In the quantum case this is not possible without at least partially collapsing the quantum state the variable is part of.
+                The 
+                <span class="annotated-text" title="It is not possible to copy an arbritary qubit's state">no cloning theorem</span> 
+                also prohibits the copying of a non-trivial quantum variable, preventing one from copying the variable before it is measured.
+            </p>
+
+            <p>
+                In this example we have also made the assumption that a program specification is also easily definable.
+                In the quantum case program specification is greatly complicated by the introduction of superposition, which prevents deterministic specification.
+            </p>
+
+            <p>
+                These factors combined create a challenging environment for the development of trustworthy quantum software.
             </p>
         </div>
         

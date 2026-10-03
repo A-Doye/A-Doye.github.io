@@ -12,7 +12,7 @@
         <!-- This div stores a default theme for JS to access at any time -->
         <div id="default-theme" 
             data-primary-color="#006152"
-            data-accent-color="#00a8c6"
+            data-accent-color="#43A47B"
             data-background-color="#d7F7Cf">
         </div>
 
@@ -22,18 +22,11 @@
             data-author="A. Doye">
         </div>
 
-        <div id="data-nav"
-            data-previous-page="/quantum-computing/qimp/frqi.html"
-            data-previous-page-title="FRQI"
-            data-next-page="/quantum-computing/qimp/transformations.html"
-            data-next-page-title="Transformations">
-        </div>
-
         <!-- This style & script sets the initial theme correctly -->
         <style id="theme-vars">
             :root {
                 --primary-color: #006152;
-                --accent-color: #00a8c6;
+                --accent-color: #43A47B;
                 --background-color: #d7F7Cf;
             }
         </style>
@@ -64,10 +57,10 @@
                 document.documentElement.style.setProperty('--background-color', defaultTheme.backgroundColor);
             }
         </script>
-      <script type="module" crossorigin src="/assets/neqr-CCuoV0un.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/app-yCKj_ipM.js">
-      <link rel="modulepreload" crossorigin href="/assets/qc-C2QbG5cG.js">
-      <link rel="stylesheet" crossorigin href="/assets/app-Bqw86Nls.css">
+      <script type="module" crossorigin src="/assets/neqr-aWEvKoY_.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/app-COs_EfNK.js">
+      <link rel="modulepreload" crossorigin href="/assets/qc-B9hrAqBM.js">
+      <link rel="stylesheet" crossorigin href="/assets/app-LtuQ1Ly5.css">
     </head>
 
     <body id="main-body">
@@ -188,6 +181,23 @@
             <p>
                 Which produces the complete NEQR state when applied for all values of <span class="math">k</span> within the image.
             </p>
+
+            <p>
+                The circuit to produce an NEQR state is similar to the FRQI circuit.
+                As colour is spread across multiple qubits more gates are needed to create the state, further increasing circuit depth.
+                In some cases it is possible to compress this process reducing the number of gates required to reach the fully encoded state 
+                (see <a href="./transformations.html">transformations</a> for more details).
+            </p>
+
+            <div class="captioned-svg">
+                <div src="../../images/svg/generated-circuits/sevenQubitNEQR.svg"></div>
+                <p>
+                    Circuit for encoding and retrieving a 16 pixel NEQR state with a colour depth of <span class="math">2<sup>3</sup></span> (from 3 colour encoding qubits).
+                    The three top-most qubits encodes colour, while the remaining qubits corespond to postion.
+                    The <span class="math">C<sup>0</sup></span> circuit portion encodes a white colour at the zero-th pixel position, whilst the
+                    <span class="math">C<sup>1</sup></span> portion encodes a mid grey at the next pixel position.
+                </p>
+            </div>
 
             <h2>Variations</h2>
 

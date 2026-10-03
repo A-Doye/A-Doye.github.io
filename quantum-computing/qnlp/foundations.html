@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>a-doye.io</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-lGEuBMQC.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-CxWyl1U8.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-RM4Cv9BW.png">
+        <link rel="manifest" href="/assets/site-BwHFeIBa.webmanifest">
+        
+        <!-- Set default or custom theme in head. This prevents incorrect colours flashing before JS loads -->
+        <!-- This div stores a default theme for JS to access at any time -->
+        <div id="default-theme" 
+            data-primary-color="#006152"
+            data-accent-color="#43A47B"
+            data-background-color="#d7F7Cf">
+        </div>
+
+        <!-- This style & script sets the initial theme correctly -->
+        <style id="theme-vars">
+            :root {
+                --primary-color: #006152;
+                --accent-color: #43A47B;
+                --background-color: #d7F7Cf;
+            }
+        </style>
+
+        <script>
+            const customTheme = JSON.parse(localStorage.getItem('customTheme'));
+
+            if (customTheme && customTheme.active) {
+                const primaryColor = customTheme.primaryColor;
+                const accentColor = customTheme.accentColor;
+                const backgroundColor = customTheme.backgroundColor;
+
+                document.getElementById('theme-vars').textContent = `
+                :root {
+                --primary-color: ${primaryColor};
+                --accent-color: ${accentColor};
+                --background-color: ${backgroundColor};
+                }`;
+
+                document.documentElement.style.setProperty('--primary-color', primaryColor);
+                document.documentElement.style.setProperty('--accent-color', accentColor);
+                document.documentElement.style.setProperty('--background-color', backgroundColor);
+            }
+            else {
+                const defaultTheme = document.getElementById('default-theme').dataset;
+                document.documentElement.style.setProperty('--primary-color', defaultTheme.primaryColor);
+                document.documentElement.style.setProperty('--accent-color', defaultTheme.accentColor);
+                document.documentElement.style.setProperty('--background-color', defaultTheme.backgroundColor);
+            }
+        </script>
+
+        <div id="data-article"
+            data-date-published="01/10/2026"
+            data-time-published="11:59"
+            data-author="A. Doye">
+        </div>
+      <script type="module" crossorigin src="/assets/foundations-aWEvKoY_.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/app-COs_EfNK.js">
+      <link rel="modulepreload" crossorigin href="/assets/qc-B9hrAqBM.js">
+      <link rel="stylesheet" crossorigin href="/assets/app-LtuQ1Ly5.css">
+    </head>
+
+    <body id="main-body">
+        <div id="qc-backdrop" class="sidebar-backdrop-container"></div>
+        <svg id="plain-page">
+            <rect x="0" y="0" width="100%" height="100%"></rect>
+        </svg>
+
+        <ul id="top-nav">
+            <div class="left">
+                
+                <li><button class="top-option top-option-toggle" id="toggle-theme">Theme</button></li>
+                <div class="top-option-filler"></div>
+            </div>
+            <div class="center">
+                <li><a class="top-option" href="/index.html">Home</a></li>
+                <li>
+                    <a class="top-option active" id="top-option-quantum" href="/quantum-computing.html">Quantum Computing</a>
+                    <div class="relative-wrapper">
+                        <div id="dropdown-quantum" class="dropdown">
+                        </div>
+                    </div>
+                </li>
+                <li><a class="top-option" href="/dithering.html">Dithering</a></li>
+                <li><a class="top-option" href="/about.html">About</a></li>
+            </div>
+
+            <div class="right"></div>
+        </ul>
+
+        <div id="side-nav" data-origin="qnlp"></div>
+
+        <div id="page-content">
+            <h1>Logical Natural Language Processing</h1>
+
+            <h2>Origins</h2>
+
+            <p>
+                Logical approaches to NLP stem from efforts to formalise representations of natural langauge, such as those proposed by
+                <span class="reference" data-ref="R. Montague, Universal Grammar, Theoria 36, 373-398 (1970)">R. Montague, 1970</span>.
+            </p>
+
+            <p>
+                Early attempts to produce a logical language model preceed the notion of NLP itself.
+                <span class="reference" data-ref="C. S. Pierce, The Logic of Relatives, The Monist Issue 7, 161-217 (Jan. 1887)">C. S. Pierce, 1887</span> 
+                is perhaps the earliest example of such thinking.
+                Pierce likened a sentence to a molecule, with each word forming bonds:
+            </p>
+
+            <div class="captioned-raster">
+                <canvas src="../../images/raster/cspierce_bonds.webp" alt="Diagram; Three Johns linked to the central word gives compared to the structure of ammonia"></canvas>
+                <p>
+                    C. S. Pierce's original diagram relating the proposition "John gives John to John" to ammonia (p. 169)
+                </p>
+            </div>
+
+            <p>
+                Dependent on its grammatical role within the sentence each word is given a number of bonds.
+                These bonds each have a type (for example, 'noun'), and are capable of binding with other words possessing the appropriate receiving type.
+                In this model a complete, grammatically correct sentence is one in which no loose bonds are present (that is, every bond has formed a connection.)
+            </p>
+
+            <h2>Pregroups</h2>
+
+            <p>
+                <span class="reference" data-ref="J. Lambek, Pregroups and natural language processing, The Mathematical Intelligencer Issue 7, 41-48 (Mar. 2006)">J. Lambek, 2006</span>'s 
+                work in formalising such concepts through the introduction of 'pregroups' has been pivotal in the development of logically based QNLP.
+                Pregroups are a specialisation of monoids for the purpose of language processing.
+                Ordering is introduced through the inclusion of left and right adjoints which, when ordered correctly, produce the identity element through the group's binary operation.
+                Each word is assigned pregroups depending on its role within the sentence, with a complete sentence reducing to a single sentence type.
+            </p>
+
+            <p>
+                To explain the concept further, take the simple subject-verb-object sentence '<i>Mice eat cheese</i>'.
+                Let <span class="math">s, v, o</span> represent the subject, verb and object types respectively, and let a fourth type, <span class="math no-italic">&Omega;</span> represent a complete sentence.
+                Each of these types then also has an adjoint possessing a direction, either left, <span class="math">l</span>, or right, <span class="math">r</span>.
+                On the generic type <span class="math">g</span> these adjoints act such that
+                <span class="math">g<sup>l</sup>g&RightArrow;I&RightArrow;gg<sup>l</sup></span> and <span class="math">gg<sup>r</sup>&RightArrow;I&RightArrow;g<sup>r</sup>g</span>.
+            </p>
+
+            <p>
+                Assigning the pregroups <i>Mice</i><span class="math">&RightArrow;s</span>, <i>eat</i><span class="math">&RightArrow;s<sup>r</sup><span class="no-italic">&Omega;</span>o<sup>l</sup></span>,
+                <i>cheese</i><span class="math">&RightArrow;o</span> we may observe the process of reduction reveal a valid sentence:
+            </p>
+
+            <div class="equation">
+                <p class="math">
+                    s(s<sup>r</sup><span class="no-italic">&Omega;</span>o<sup>l</sup>)o&RightArrow;(ss<sup>r</sup>)<span class="no-italic">&Omega;</span>(o<sup>l</sup>o)&RightArrow;
+                    I<span class="no-italic">&Omega;</span>I&RightArrow;<span class="no-italic">&Omega;</span>
+                </p>
+            </div>
+
+            <p>
+                Though this example is trivial, it is revealing of the fundamental logic underlying this approach to understanding language.
+            </p>
+
+
+            <h2>String diagrams</h2>
+
+            <p>
+                String diagrams are often used to represent grammatical structures based on pregroup logic.
+                They are formal, graph-algebraic structures consisting of boxes, which contain words, and strings/wires, which connect boxes.
+                Wires are enriched with grammatical types to allow restrict their connectivity in line with the structure of pregroups.
+                The shape a wire takes also conveys meaning.
+                An upwardly concave wire is known as a cup, and represents a contraction within the diagram.
+            </p>
+
+            <p>
+
+            </p>
+
+            <div class="captioned-svg">
+                <div src="../../images/drawio-xml/miceEatCheeseString.drawio.svg"></div>
+                <p>
+                    String diagram for 'Mice eat cheese'.
+                    A single dangling wire representing the sentence type, <span class="no-italic">&Omega;</span>, represents a grammatically correct sentence.
+                </p>
+            </div>
+
+            <p>
+                By representing pregroups through string diagrams their structure becomes more clear.
+                The verb 'eat' can be thought of as expecting a subject to its left, and an object to its right.
+                These requirements are fulfilled by 'Mice' and 'cheese' respectively, creating cups that prevent dangling wires.
+            </p>
+
+            <p>
+                Structures like these represent a sophisticated approach to natural language processing compared to more basic methods, such as bag-of-words or stairs models.
+                In the next section the implementation of these structures will be introduced.
+            </p>
+        </div>
+        
+        <footer>Copyright A. Doye 2026</footer>
+
+    </body>
+</html>

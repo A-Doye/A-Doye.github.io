@@ -12,7 +12,7 @@
         <!-- This div stores a default theme for JS to access at any time -->
         <div id="default-theme" 
             data-primary-color="#006152"
-            data-accent-color="#00a8c6"
+            data-accent-color="#43A47B"
             data-background-color="#d7F7Cf">
         </div>
 
@@ -22,18 +22,11 @@
             data-author="A. Doye">
         </div>
 
-        <div id="data-nav"
-            data-previous-page="/quantum-computing/qimp/qubit-lattice.html"
-            data-previous-page-title="Qubit Lattice"
-            data-next-page="/quantum-computing/qimp/neqr.html"
-            data-next-page-title="NEQR">
-        </div>
-
         <!-- This style & script sets the initial theme correctly -->
         <style id="theme-vars">
             :root {
                 --primary-color: #006152;
-                --accent-color: #00a8c6;
+                --accent-color: #43A47B;
                 --background-color: #d7F7Cf;
             }
         </style>
@@ -64,10 +57,10 @@
                 document.documentElement.style.setProperty('--background-color', defaultTheme.backgroundColor);
             }
         </script>
-      <script type="module" crossorigin src="/assets/frqi-XRUfpN8X.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/app-yCKj_ipM.js">
-      <link rel="modulepreload" crossorigin href="/assets/qc-C2QbG5cG.js">
-      <link rel="stylesheet" crossorigin href="/assets/app-Bqw86Nls.css">
+      <script type="module" crossorigin src="/assets/frqi-HsnhAlyG.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/app-COs_EfNK.js">
+      <link rel="modulepreload" crossorigin href="/assets/qc-B9hrAqBM.js">
+      <link rel="stylesheet" crossorigin href="/assets/app-LtuQ1Ly5.css">
     </head>
 
     <body id="main-body">
@@ -205,6 +198,20 @@
                     </p>
                     
                 </div>
+            </div>
+
+            <p>
+                The circuit to produce this state is relatively simple to implement, as shown in the diagram below.
+                First, Hadamard gates are applied individually to all positional encoding qubits.
+                Then colour is encoded using a series of multiple control rotational gates.
+                In this example colour is encoded in sequence from the zero-th position, though this is not a strict requirement and the colour encoding gates can be applied in any order.
+                Extensive use of multiple control gates is a limiting factor for current devices, as their realisation on physical hardware often dramatically increases circuit depth.
+            </p>
+
+            <div class="captioned-svg">
+                <div src="../../images/svg/generated-circuits/fiveQubitFRQI.svg"></div>
+                <p>Circuit for encoding and retrieving a 16 pixel FRQI state. 
+                    The top-most qubit encodes colour, while the remaining qubits corespond to postion.</p>
             </div>
 
             <p>
